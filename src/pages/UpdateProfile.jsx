@@ -36,8 +36,8 @@ const UpdateProfile = () => {
       reader.readAsDataURL(imageFile);
       reader.onload = async () => {
         const imageData = reader.result;
-        formData.set("avatar", imageData); // Set the image data under the name "avatar"
-        reset(Object.fromEntries(formData)); // Send form data to backend
+        formData.set("avatar", imageData);
+        reset(Object.fromEntries(formData));
       };
     } else {
       reset(Object.fromEntries(formData));

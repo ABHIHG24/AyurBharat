@@ -12,7 +12,6 @@ export const loader = async ({ request }) => {
 
   const urlSearchParams = new URLSearchParams(request.url.split("?")[1]);
   const params = Object.fromEntries(urlSearchParams.entries());
-  console.log(params);
 
   const response = await CustomFetch("/api/product/getAllProduct", {
     params,

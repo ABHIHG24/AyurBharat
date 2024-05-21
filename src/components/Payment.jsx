@@ -43,7 +43,7 @@ const Payment = () => {
     shippingInfo,
     orderItems: cartItems,
     itemsPrice: orderInfo.cartTotal,
-    // taxPrice: Math.floor((orderInfo.orderTotal / 100) * 18),
+    taxPrice: Math.floor((orderInfo.orderTotal / 100) * 18),
     taxPrice: 0,
     shippingPrice: orderInfo.shipping,
     totalPrice: orderInfo.orderTotal,
@@ -100,7 +100,7 @@ const Payment = () => {
         }
       }
     } catch (error) {
-      // console.error("Error during payment processing:", error);
+      console.error("Error during payment processing:", error);
       payBtn.current.disabled = false;
       toast.error(error.response.data.message);
     }

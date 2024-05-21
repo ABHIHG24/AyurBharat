@@ -80,6 +80,7 @@ const Appointment = () => {
             id="date"
             name="date"
             className="input input-bordered w-full max-w-md"
+            min={new Date().toISOString().split("T")[0]}
             required
           />
         </div>

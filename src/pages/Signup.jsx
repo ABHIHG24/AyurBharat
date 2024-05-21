@@ -2,9 +2,10 @@ import Logo from "../assets/logo.png";
 import { toast } from "react-toastify";
 import { CustomFetch } from "../axios/Costomaxios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const {
     mutate: insert,
     isError,
@@ -16,10 +17,11 @@ const Signup = () => {
         .then((res) => {
           // console.log(res);
 
-          toast.success("Successfully Signuped");
+          toast.success("SignUp Successfully");
+          navigate("/login");
         })
         .catch((err) => {
-          // console.log(err);
+          console.log(err);
           toast.error(`${err.response.data.message}`);
         });
     },
@@ -44,6 +46,7 @@ const Signup = () => {
     }
 
     const newUser = Object.fromEntries(formData);
+    // console.log(newUser);
     e.currentTarget.reset();
 
     insert(newUser);
@@ -131,7 +134,7 @@ const Signup = () => {
             className="input input-bordered w-64  h-8"
             required
           />
-          <input type="file" className="file-input w-64 mb-2  mt-2 max-w-xs" />
+          {/* <input type="file" className="file-input w-64 mb-2  mt-2 max-w-xs" /> */}
 
           <label htmlFor="confirmPassword">Confirm Password: </label>
           <input

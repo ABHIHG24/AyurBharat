@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@mdi/js": "^7.4.47",
+    "@mdi/react": "^1.6.1",
+    "@mui/material": "^5.15.7",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.11",
     "@reduxjs/toolkit": "^1.9.5",
@@ -18,10 +22,12 @@
     "@tanstack/react-query": "^4.32.6",
     "@tanstack/react-query-devtools": "^4.32.6",
     "axios": "^1.4.0",
+    "chart.js": "^4.4.2",
     "country-state-city": "^3.2.1",
     "dayjs": "^1.11.9",
     "nanoid": "^5.0.6",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.10.1",

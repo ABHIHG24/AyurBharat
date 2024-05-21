@@ -26,16 +26,16 @@ const ConfirmShipping = () => {
   };
   return (
     <div className="grid grid-cols-1 grid-rows-3 lg:grid-rows-2 lg:grid-cols-2 w-full  lg:gap-4">
-      <div className="font-bold flex flex-col gap-4 border-b-2 border-rose-900">
+      <div className="font-bold flex flex-col gap-4 border-b-2 border-rose-900 max-h-[300px] overflow-y-auto">
         <h2 className="text-2xl text-primary">User Details</h2>
         <p>Name: {user.username}</p>
         <p>Email: {user.email}</p>
         <p>
-          Address: {countryName} {state} {city} {address} {pinCode}
+          Address: {countryName} {state} {city} {address} - {pinCode}
         </p>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 max-h-[400px] overflow-y-auto">
         <h2 className="font-bold text-2xl text-error">Your Products</h2>
         {cartItems.map((data) => {
           const { cartID, image, price, amount, title } = data;
@@ -43,7 +43,7 @@ const ConfirmShipping = () => {
           return (
             <div key={cartID} className="flex gap-10 w-2/6 font-bold">
               <h2>Name: {title}</h2>
-              <img src={img} />
+              <img src={img} className="w-60 h-60" />
               <p>price: {price}</p>
               <p>amount: {amount}</p>
             </div>

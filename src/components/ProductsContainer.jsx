@@ -19,8 +19,7 @@ const ProductsContainer = () => {
   return (
     <div className="flex justify-between flex-col items-center mt-8 border-b border-base-300 pb-5">
       <div className="font-medium text-md ">
-        {productCount}
-        product{productCount > 1 && "s"}
+        TotalProduct{productCount > 1 && "s"} {productCount}
         <div className="flex gap-x-2">
           <button
             type="button"
@@ -40,7 +39,7 @@ const ProductsContainer = () => {
       </div>
 
       <div>
-        {productCount === 0 ? (
+        {products.length === 0 ? (
           <h5 className="text-2xl mt-16">
             "Sorry, no products matched your search ...
           </h5>

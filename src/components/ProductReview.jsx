@@ -1,12 +1,13 @@
 import ReactStars from "react-rating-stars-component";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { newReview } from "../features/Cart/cartSlice";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const ProductReview = ({ product }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const user = useSelector((state) => state.userState.user);
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -49,9 +50,18 @@ const ProductReview = ({ product }) => {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
-        <button className="btn btn-success w-1/4" onClick={handleSubmitReview}>
-          Submit
-        </button>
+        {user ? (
+          <button
+            className="btn btn-success w-1/4"
+            onClick={handleSubmitReview}
+          >
+            Submit
+          </button>
+        ) : (
+          <Link to="/login">
+            <button className="btn btn-success w-1/4">Please Login</button>
+          </Link>
+        )}
       </div>
       <div className="flex flex-col w-1/2 h-96 overflow-auto">
         <p className="font-bold underline">

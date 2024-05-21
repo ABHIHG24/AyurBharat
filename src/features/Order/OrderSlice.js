@@ -26,13 +26,14 @@ const orderSlice = createSlice({
 
     createOrder: (state, action) => {
       const order = action.payload;
+      console.log(order);
 
       CustomFetch.post("/api/v1/orderRoutes/order/new", order)
         .then((res) => {
-          // console.log(res);
+          console.log(res);
         })
         .catch((err) => {
-          // console.log(err);
+          console.log(err);
         });
     },
     myOrders: (state, action) => {

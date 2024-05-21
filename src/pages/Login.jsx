@@ -26,12 +26,16 @@ export const action = (store, user, setRole, navigate) => async () => {
       if (res.data.success) {
         toast.success(`${res.data.message}`);
         setRole(res.data.role);
+        if (res.data.role === "admin") {
+          return navigate("/admin");
+        }
         navigate("/");
       } else {
         return toast.info(`${res.data.message}`);
       }
     }
   } catch (error) {
+    console.log(error);
     // const errorMessage =
     // error?.res.data.message || "please double check your credentials";
     toast.error("please double check your credentials");

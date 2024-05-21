@@ -7,7 +7,7 @@ const Filters = () => {
   const { products, categories, companies, params } = useLoaderData();
   const { title, company, category, shipping } = params;
   const { ["ratings[lte]"]: ratingsLTE, ["price[lte]"]: priceLTE } = params;
-  console.log(ratingsLTE);
+  // console.log(ratingsLTE);
 
   return (
     <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4  gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center">

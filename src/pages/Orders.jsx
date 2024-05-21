@@ -11,7 +11,11 @@ const Orders = () => {
     dispatch(fetchMyOrders());
   }, [dispatch]);
 
-  return <>{myOrders && <ViewOrders myOrders={myOrders} />}</>;
+  return (
+    <>
+      {myOrders ? <ViewOrders myOrders={myOrders} /> : <h1>No orders Yet</h1>}
+    </>
+  );
 };
 
 export default Orders;

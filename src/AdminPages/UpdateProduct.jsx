@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomFetch } from "../axios/Costomaxios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { From } from "../styles/login";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddProduct = () => {
+const UpdateProduct = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { isLoading: ProductDataLoading, data } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const { data } = await CustomFetch.get(
+        `/api/product//getSingleProduct/${id}`
+      );
+      return data;
+    },
+  });
+
   const {
     mutate: insert,
     isError,
@@ -12,10 +25,11 @@ const AddProduct = () => {
     isLoading,
   } = useMutation({
     mutationFn: async (productData) => {
-      await CustomFetch.post("api/product/insertProduct", productData)
+      await CustomFetch.put(`api/product/updateProduct/${id}`, productData)
         .then((res) => {
           console.log(res);
           toast.success("Successfully Added");
+          navigate("/admin/products");
         })
         .catch((err) => {
           console.log(err);
@@ -33,10 +47,11 @@ const AddProduct = () => {
     formData.append("category", e.currentTarget.category.value);
     formData.append("price", e.currentTarget.price.value);
     formData.append("stock", e.currentTarget.stock.value);
-    formData.append("image", e.currentTarget.image.files[0]);
+    // formData.append("image", e.currentTarget.image.files[0]);
 
+    console.log(Object.fromEntries(formData));
     try {
-      await insert(formData);
+      await insert(Object.fromEntries(formData));
       // toast.success("Successfully Added");
       e.target.reset();
     } catch (err) {
@@ -44,6 +59,10 @@ const AddProduct = () => {
       toast.error("Error while inserting");
     }
   };
+
+  if (ProductDataLoading) {
+    return <h1>Loading ...</h1>;
+  }
 
   return (
     <div>
@@ -58,7 +77,7 @@ const AddProduct = () => {
             type="text"
             id="title"
             name="title"
-            required
+            defaultValue={data.title}
             // value={ProductData.title}
           />
         </span>
@@ -68,7 +87,7 @@ const AddProduct = () => {
             type="text"
             id="description"
             name="description"
-            required
+            defaultValue={data.description}
 
             // value={ProductData.description}
           />
@@ -79,7 +98,7 @@ const AddProduct = () => {
             type="text"
             id="company"
             name="company"
-            required
+            defaultValue={data.company}
 
             // value={ProductData.company}
           />
@@ -90,32 +109,29 @@ const AddProduct = () => {
             type="text"
             id="category"
             name="category"
-            required
-
+            defaultValue={data.category}
             // value={ProductData.category}
           />
         </span>
-        <span>
+        {/* <span>
           <label htmlFor="image">Image URL : </label>
           <input
             type="file"
             id="image"
             name="image"
-            required
 
             // onChange={(e) => {
             //   console.log(e.target.files[0]);
             // }}
           />
-        </span>
+        </span> */}
         <span>
           <label htmlFor="price">Price (in Rs) : </label>
           <input
             type="number"
             id="price"
             name="price"
-            required
-
+            defaultValue={data.price}
             // value={ProductData.price}
           />
         </span>
@@ -125,8 +141,7 @@ const AddProduct = () => {
             type="number"
             id="stock"
             name="stock"
-            required
-
+            defaultValue={data.stock}
             // value={ProductData.price}
           />
         </span>
@@ -140,4 +155,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

@@ -1,6 +1,17 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { AddProduct, Homepage } from "./AdminPages";
+import {
+  AddProduct,
+  DashBoard,
+  Products as AdminProduct,
+  AdminHomePage,
+  UpdateProductStatus,
+  AdminOrders,
+  OrderStatus,
+  ManageUsers,
+  AppointmentManage,
+  Reviews,
+} from "./AdminPages";
 import {
   About,
   Cart,
@@ -37,14 +48,11 @@ import "./App.css";
 import { loader as landingLoader } from "./pages/Landing";
 import { loader as SingleProductLoader } from "./pages/SingleProduct";
 import { loader as productLoader } from "./pages/Products";
-
-// import { loader as serviceLoader } from "./pages/Service";
-// import { action as registerAction } from "./pages/Signup";
+import PrivateRoute from "./features/PrivateRoute";
 import { action as loginAction } from "./pages/Login";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { CustomFetch } from "./axios/Costomaxios";
-// import { action as checkoutAction } from "./components/CheckoutForm";
 
 const App = () => {
   const [role, setRole] = useState("user");
@@ -80,15 +88,11 @@ const App = () => {
     {
       path: "/Signup",
       element: <Signup />,
-      // action: registerAction,
 
       errorElement: <Error />,
       action: <registerAction />,
     },
-  ];
-
-  if (role === "user") {
-    routes.unshift({
+    {
       path: "/",
       element: <HomeLayout />,
       errorElement: <Error />,
@@ -119,7 +123,11 @@ const App = () => {
         },
         {
           path: "checkout",
-          element: <Checkout />,
+          element: (
+            <PrivateRoute>
+              <Checkout />
+            </PrivateRoute>
+          ),
           children: [
             {
               index: true,
@@ -141,11 +149,19 @@ const App = () => {
         },
         {
           path: "orders",
-          element: <Orders />,
+          element: (
+            <PrivateRoute>
+              <Orders />
+            </PrivateRoute>
+          ),
         },
         {
           path: "orders/:id",
-          element: <SingleOrder />,
+          element: (
+            <PrivateRoute>
+              <SingleOrder />
+            </PrivateRoute>
+          ),
         },
         {
           path: "service",
@@ -164,7 +180,11 @@ const App = () => {
         },
         {
           path: "me",
-          element: <Profile />,
+          element: (
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          ),
           children: [
             {
               index: true,
@@ -181,14 +201,55 @@ const App = () => {
           ],
         },
       ],
-    });
-  } else if (role === "admin") {
-    routes.unshift({
-      path: "/",
-      element: <AddProduct />,
+    },
+    {
+      path: "/admin",
+      element: (
+        <PrivateRoute isAdmin={true}>
+          <AdminHomePage />
+        </PrivateRoute>
+      ),
       errorElement: <Error />,
-    });
-  }
+      children: [
+        {
+          index: true,
+          element: <DashBoard />,
+        },
+        {
+          path: "products",
+          element: <AdminProduct />,
+        },
+        {
+          path: "updateProduct/:id",
+          element: <UpdateProductStatus />,
+        },
+        {
+          path: "add_product",
+          element: <AddProduct />,
+        },
+        {
+          path: "view_orders",
+          element: <AdminOrders />,
+        },
+        {
+          path: "orders_status/:id",
+          element: <OrderStatus />,
+        },
+        {
+          path: "users",
+          element: <ManageUsers />,
+        },
+        {
+          path: "reviews",
+          element: <Reviews />,
+        },
+        {
+          path: "view_appointment",
+          element: <AppointmentManage />,
+        },
+      ],
+    },
+  ];
 
   const router = createBrowserRouter(routes);
 
